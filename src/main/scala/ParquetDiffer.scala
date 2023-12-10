@@ -5,17 +5,17 @@ import org.apache.spark.sql.SparkSession
  */
 object ParquetDiffer {
   def main(args: Array[String]): Unit = {
-    if (args.length < 2) {
-      println("Usage: ParquetDiffer <folder1Path> <folder2Path>")
+    if (args.length < 4) {
+      println("Usage: S3ParquetFileComparatorWithKeys <folder1Path> <folder2Path> <accessKey> <secretKey>")
       System.exit(1)
     }
 
-    val Array(folder1Path, folder2Path) = args
+    val Array(folder1Path, folder2Path, s3AccessKey, s3SecretKey) = args
 
     val spark = SparkSession.builder()
       .appName("ParquetDiffer")
-      .config("spark.hadoop.fs.s3a.access.key", "YOUR_ACCESS_KEY")
-      .config("spark.hadoop.fs.s3a.secret.key", "YOUR_SECRET_KEY")
+      .config("spark.hadoop.fs.s3a.access.key", s3AccessKey)
+      .config("spark.hadoop.fs.s3a.secret.key", s3SecretKey)
       .getOrCreate()
 
     // Read all Parquet files from S3 folders
